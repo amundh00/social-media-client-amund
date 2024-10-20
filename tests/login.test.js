@@ -14,7 +14,7 @@ describe('login', () => {
   });
 
   it('should store the token when provided with valid credentials', async () => {
-    const mockProfile = { accessToken: 'mocked_token', name: 'Inge Brigt' };
+    const mockProfile = { accessToken: 'mocked_token', name: 'Amund Amundsen' };
     
     fetch.mockResolvedValueOnce({
       ok: true,
@@ -24,8 +24,8 @@ describe('login', () => {
     const result = await login('test@example.com', 'password123');
 
     expect(save).toHaveBeenCalledWith('token', 'mocked_token');
-    expect(save).toHaveBeenCalledWith('profile', { name: 'Inge Brigt' });
+    expect(save).toHaveBeenCalledWith('profile', { name: 'Amund Amundsen' });
 
-    expect(result).toEqual({ name: 'Inge Brigt' });
+    expect(result).toEqual({ name: 'Amund Amundsen' });
   });
 });
