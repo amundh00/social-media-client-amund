@@ -1,34 +1,54 @@
+// eslint.config.js
 import globals from "globals";
 import pluginJs from "@eslint/js";
+import pluginJest from "eslint-plugin-jest";
 import pluginCypress from "eslint-plugin-cypress";
 
 export default [
   {
+    files: ["*.js"],
     languageOptions: {
       globals: {
         ...globals.browser,
         ...globals.node,
-        // Explicitly set Cypress globals to 'readonly' so that ESLint treats them correctly
-        describe: "readonly",
-        it: "readonly",
-        cy: "readonly",
-        before: "readonly",
-        after: "readonly",
-        beforeEach: "readonly",
-        afterEach: "readonly",
       },
     },
+    rules: {
+      ...pluginJs.configs.recommended.rules,
+    },
   },
-  pluginJs.configs.recommended,
   {
+    files: ["**/*.test.js", "**/*.spec.js"],
+    plugins: {
+      jest: pluginJest,
+    },
+    languageOptions: {
+      globals: {
+        ...globals.jest,
+      },
+    },
+    rules: {
+      ...pluginJest.configs.recommended.rules,
+      "no-undef": "off",
+      "no-unused-vars": ["warn", { varsIgnorePattern: "^_" }],
+    },
+  },
+  {
+    files: ["cypress.config.js", "cypress/**/*.cy.js"],
     plugins: {
       cypress: pluginCypress,
     },
     languageOptions: {
-      ecmaVersion: 2021, // Adjust based on your needs
+      globals: {
+        ...globals.browser,
+        ...globals.node,
+        ...globals.cypress,
+      },
     },
     rules: {
-      // Add any other Cypress or custom rules if needed
+      ...pluginCypress.configs.recommended.rules,
+      "no-undef": "off",
+      "no-unused-vars": ["warn", { vars: "all", args: "none" }],
     },
   },
 ];
