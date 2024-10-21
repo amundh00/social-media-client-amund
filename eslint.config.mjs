@@ -49,6 +49,7 @@ export default [
       ...pluginCypress.configs.recommended.rules,
       "no-undef": "off",
       "no-unused-vars": ["warn", { vars: "all", args: "none" }],
+      "cypress/no-unnecessary-waiting": "off",
     },
   },
 ];
